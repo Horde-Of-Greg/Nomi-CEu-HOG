@@ -1,5 +1,5 @@
 /*
-Small Dusts
+Small Dusts - Nomilabs
 Put here any small dusts to remove that dont serve any purpose at all.
 Make sure these dusts are not useful for any recycling recipe.
 If a dust here is an output or an input of any recipe, it is a bug and should get reported
@@ -67,8 +67,9 @@ for (var smallToRemove : [
 	'Cuprorhodsite'
 ])
 {
-	//Hides the crafting recipe
+	//Removes the crafting recipe
 	mods.jei.ingredient.removeAndHide(metaitem('nomilabs:dustSmall' + smallToRemove))
+	crafting.removeByInput(metaitem('nomilabs:dustSmall' + smallToRemove))
 
 	//Removes the packager recipes
 	mods.gregtech.packer.removeByInput(12, [metaitem('nomilabs:dustSmall' + smallToRemove) * 4, metaitem('circuit.integrated').withNbt(['Configuration': 1])], null)
@@ -76,7 +77,7 @@ for (var smallToRemove : [
 }
 
 /*
-Tiny Dusts
+Tiny Dusts - Nomilabs
 Same as above but for tiny dusts.
 Any material with an ingot form should immediately be excluded because nuggets (maybe remove the nugget?)
 */
@@ -136,11 +137,13 @@ for (var tinyToRemove : [
 	'Cuprorhodsite'
 ])
 {
-	//Hides the crafting recipe
+	//Removes the crafting recipe
 	mods.jei.ingredient.removeAndHide(metaitem('nomilabs:dustTiny' + tinyToRemove))
+	crafting.removeByInput(metaitem('nomilabs:dustTiny' + tinyToRemove))
 
 	//Removes the packager recipes
-	mods.gregtech.packer.removeByInput(12, [metaitem('dustTiny' + tinyToRemove) * 9, metaitem('circuit.integrated').withNbt(['Configuration': 1])], null)
-	mods.gregtech.packer.removeByInput(12, [metaitem('dust' + tinyToRemove), metaitem('circuit.integrated').withNbt(['Configuration': 1])], null)
+	mods.gregtech.packer.removeByInput(12, [metaitem('nomilabs:dustTiny' + tinyToRemove) * 9, metaitem('circuit.integrated').withNbt(['Configuration': 1])], null)
+	mods.gregtech.packer.removeByInput(12, [metaitem('nomilabs:dust' + tinyToRemove), metaitem('circuit.integrated').withNbt(['Configuration': 1])], null)
 
 }
+
