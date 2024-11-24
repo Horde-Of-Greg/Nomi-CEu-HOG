@@ -100,7 +100,7 @@ Put here materials that need only their tiny dust removed but not small dust
 Any material with an ingot form should immediately be excluded because nuggets (maybe remove the nugget?)
 */
 [	//List Materials here - Ordered by ID
-	'Osmiridium8020',
+	'Osmiridium8020'
 ].each { var material ->
 	//Removes the crafting recipe
 	mods.jei.ingredient.removeAndHide(metaitem('nomilabs:dustTiny' + material))
