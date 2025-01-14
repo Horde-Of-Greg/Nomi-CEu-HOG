@@ -3,10 +3,15 @@
 
 package postInit.addon
 
+import gregtech.api.metatileentity.multiblock.CleanroomType
+//import gregtech.api.recipes.RecipeBuilder
 //import gregtech.api.recipes.builders.AssemblyLineRecipeBuilder
+//import gregtech.api.recipes.builders.SimpleRecipeBuilder
+//import gregtech.api.recipes.ingredients.GTRecipeItemInput
 //import gregtech.api.recipes.recipeproperties.ResearchProperty
 import com.nomiceu.nomilabs.util.LabsModeHelper
 import net.minecraft.item.ItemStack
+import net.minecraftforge.fluids.FluidStack
 
 import static gregtech.api.GTValues.*
 
@@ -18,6 +23,7 @@ import static gregtech.api.GTValues.*
 mods.jei.ingredient.hide(ore('oc:materialCircuitBoardRaw')) // Raw circuit board
 mods.jei.ingredient.hide(ore('oc:materialCircuitBoardPrinted')) // Printed circuit board
 mods.jei.ingredient.hide(ore('oc:materialTransistor')) // Transistor
+mods.jei.ingredient.hide(ore('oc:materialCuttingWire')) // Cutting Wire
 
 // Remove Recipes
 crafting.remove('opencomputers:material33') // Raw circuit board
@@ -70,16 +76,105 @@ crafting.removeByOutput(ore('oc:floppy'))
 for (ItemStack program : programs) {
 	mods.gregtech.assembler.recipeBuilder()
 		.inputWildNBT(ore('oc:floppy'))
-		.circuitMeta(programs.indexOf(program))
+		.circuitMeta(programs.indexOf(program) + 1)
 		.outputs(program)
-		.duration(20).EUt(VA[ULV])
+		.duration(20).EUt(VA[LV])
 		.buildAndRegister()
 }
 
 // Resetting to a base floppy disk
-mods.gregtech.assembler.recipeBuilder()
-	.inputWildNBT(ore('oc:floppy'))
-	.circuitMeta(32)
-	.outputs(item('opencomputers:storage', 1))
-	.duration(20).EUt(VA[ULV])
+mods.gregtech.polarizer.recipeBuilder()
+	.inputs(ore('oc:floppy'))
+	.outputs(item('opencomputers:storage', 1)) // Floppy Disk
+	.duration(60).EUt(VA[LV])
 	.buildAndRegister()
+
+/** New content recipes
+ * These are the recipes that change the actual content and progression of OC
+ */
+
+// Crafting components
+
+// Remove Old
+// Microchips
+crafting.remove('opencomputers:material36') // Tier 1 Microchip
+crafting.remove('opencomputers:material37') // Tier 2 Microchip
+crafting.remove('opencomputers:material38') // Tier 3 Microchip
+
+// Keyboard elements
+crafting.remove('opencomputers:material43') // Keypad
+crafting.remove('opencomputers:material44') // Button Group
+crafting.remove('opencomputers:material45') // Arrow Keys
+
+// Make New
+// Microchips
+for (FluidStack joiningFluid : [fluid('tin') * 576, fluid('soldering_alloy') * 288]) {
+	// Tier 1
+	mods.gregtech.circuit_assembler.recipeBuilder()
+		.inputs(metaitem('plate.nano_central_processing_unit'),
+			ore('componentTransistor') * 8,
+			metaitem('wireFineRedAlloy') * 16
+		)
+		.fluidInputs(joiningFluid)
+		.outputs(item('opencomputers:material', 7) * 8)
+		.duration(200).EUt(VA[HV])
+		.buildAndRegister()
+
+	// Tier 2
+	mods.gregtech.circuit_assembler.recipeBuilder()
+		.inputs(metaitem('plate.qbit_central_processing_unit'),
+			metaitem('plate.nano_central_processing_unit') * 4,
+			metaitem('component.smd.transistor') * 16,
+			metaitem('wireFineTantalum') * 24
+		)
+		.fluidInputs(joiningFluid)
+		.outputs(item('opencomputers:material', 8) * 16)
+		.cleanroom(CleanroomType.CLEANROOM)
+		.duration(200).EUt(VA[EV])
+		.buildAndRegister()
+
+	// Tier 3
+	mods.gregtech.circuit_assembler.recipeBuilder()
+		.inputs(metaitem('crystal.central_processing_unit'),
+			metaitem('plate.qbit_central_processing_unit') * 8,
+			metaitem('plate.nano_central_processing_unit') * 16,
+			metaitem('component.advanced_smd.transistor') * 6,
+			metaitem('wireFineIndiumTinBariumTitaniumCuprate') * 48
+		)
+		.fluidInputs(joiningFluid)
+		.outputs(item('opencomputers:material', 9) * 32)
+		.cleanroom(CleanroomType.STERILE_CLEANROOM)
+		.duration(200).EUt(VA[IV])
+		.buildAndRegister()
+}
+
+// Keyboard elements
+for (FluidStack plasticFluid : [fluid('plastic') * 576, fluid('polyvinyl_chloride') * 576]) {
+	// Keypad
+	mods.gregtech.assembler.recipeBuilder()
+		.inputs(item('minecraft:stone_button') * 9, metaitem('springSteel') * 9)
+		.fluidInputs(plasticFluid)
+		.circuitMeta(9)
+		.outputs(item('opencomputers:material', 16)) // Keypad
+		.duration(100).EUt(VA[MV])
+		.buildAndRegister()
+
+	// Button Group
+	mods.gregtech.assembler.recipeBuilder()
+		.inputs(item('minecraft:stone_button') * 6, metaitem('springSteel') * 6)
+		.fluidInputs(plasticFluid)
+		.circuitMeta(6)
+		.outputs(item('opencomputers:material', 15)) // Button Group
+		.duration(100).EUt(VA[MV])
+		.buildAndRegister()
+
+	// Arrow Keys
+	mods.gregtech.assembler.recipeBuilder()
+		.inputs(item('minecraft:stone_button') * 5, metaitem('springSteel') * 5)
+		.fluidInputs(plasticFluid)
+		.circuitMeta(5)
+		.outputs(item('opencomputers:material', 14)) // Arrow Keys
+		.duration(100).EUt(VA[MV])
+		.buildAndRegister()
+
+}
