@@ -24,12 +24,25 @@ mods.jei.ingredient.hide(ore('oc:materialCircuitBoardRaw')) // Raw circuit board
 mods.jei.ingredient.hide(ore('oc:materialCircuitBoardPrinted')) // Printed circuit board
 mods.jei.ingredient.hide(ore('oc:materialTransistor')) // Transistor
 mods.jei.ingredient.hide(ore('oc:materialCuttingWire')) // Cutting Wire
+mods.jei.ingredient.hide(item('opencomputers:endstone')) // OC Version of endstone
 
 // Remove Recipes
 crafting.remove('opencomputers:material33') // Raw circuit board
 crafting.remove('opencomputers:material35') // Transistor
+crafting.remove('opencomputers:material54') // Chamelium Default Recipe
+crafting.remove('opencomputers:endstone27') // OC Version of endstone
 
 furnace.removeByOutput(ore('oc:materialCircuitBoardPrinted')) // Printed circuit board
+
+/**
+ * Add oredict tags to items
+ * Some items need new oredict tags so it auto-generates new recipes for it
+ */
+
+// Microchips
+ore_dict.add('circuitHv', item('opencomputers:material', 7)) // Tier 1 circuit
+ore_dict.add('circuitEv', item('opencomputers:material', 8)) // Tier 2 circuit
+ore_dict.add('circuitIv', item('opencomputers:material', 9)) // Tier 3 circuit
 
 /**
  * Floppy Disk assembler recipes
@@ -108,12 +121,13 @@ crafting.remove('opencomputers:material45') // Arrow Keys
 
 // Make New
 // Microchips
-for (FluidStack joiningFluid : [fluid('tin') * 576, fluid('soldering_alloy') * 288]) {
+for (FluidStack joiningFluid : [fluid('tin') * 1152, fluid('soldering_alloy') * 576]) {
 	// Tier 1
 	mods.gregtech.circuit_assembler.recipeBuilder()
-		.inputs(metaitem('plate.nano_central_processing_unit'),
-			ore('componentTransistor') * 8,
-			metaitem('wireFineRedAlloy') * 16
+		.inputs(metaitem('plateSteel') * 8,
+			metaitem('plate.nano_central_processing_unit') * 8,
+			ore('componentTransistor') * 24,
+			metaitem('wireFineRedAlloy') * 32
 		)
 		.fluidInputs(joiningFluid)
 		.outputs(item('opencomputers:material', 7) * 8)
@@ -122,10 +136,11 @@ for (FluidStack joiningFluid : [fluid('tin') * 576, fluid('soldering_alloy') * 2
 
 	// Tier 2
 	mods.gregtech.circuit_assembler.recipeBuilder()
-		.inputs(metaitem('plate.qbit_central_processing_unit'),
-			metaitem('plate.nano_central_processing_unit') * 4,
-			metaitem('component.smd.transistor') * 16,
-			metaitem('wireFineTantalum') * 24
+		.inputs(metaitem('plateAluminium') * 16,
+			metaitem('plate.qbit_central_processing_unit') * 16,
+			metaitem('plate.nano_central_processing_unit') * 32,
+			metaitem('component.smd.transistor') * 48,
+			metaitem('wireFineTantalum') * 48
 		)
 		.fluidInputs(joiningFluid)
 		.outputs(item('opencomputers:material', 8) * 16)
@@ -135,25 +150,26 @@ for (FluidStack joiningFluid : [fluid('tin') * 576, fluid('soldering_alloy') * 2
 
 	// Tier 3
 	mods.gregtech.circuit_assembler.recipeBuilder()
-		.inputs(metaitem('crystal.central_processing_unit'),
-			metaitem('plate.qbit_central_processing_unit') * 8,
-			metaitem('plate.nano_central_processing_unit') * 16,
-			metaitem('component.advanced_smd.transistor') * 6,
-			metaitem('wireFineIndiumTinBariumTitaniumCuprate') * 48
+		.inputs(metaitem('plateStainlessSteel') * 32,
+			metaitem('crystal.central_processing_unit') * 8,
+			metaitem('plate.qbit_central_processing_unit') * 24,
+			metaitem('plate.nano_central_processing_unit') * 48,
+			metaitem('component.advanced_smd.transistor') * 16,
+			metaitem('wireFineIndiumTinBariumTitaniumCuprate') * 64
 		)
 		.fluidInputs(joiningFluid)
 		.outputs(item('opencomputers:material', 9) * 32)
-		.cleanroom(CleanroomType.STERILE_CLEANROOM)
+		.cleanroom(CleanroomType.CLEANROOM)
 		.duration(200).EUt(VA[IV])
 		.buildAndRegister()
 }
 
 // Keyboard elements
-for (FluidStack plasticFluid : [fluid('plastic') * 576, fluid('polyvinyl_chloride') * 576]) {
+for (FluidStack plasticFluid : [fluid('plastic'), fluid('polyvinyl_chloride')]) {
 	// Keypad
 	mods.gregtech.assembler.recipeBuilder()
 		.inputs(item('minecraft:stone_button') * 9, metaitem('springSteel') * 9)
-		.fluidInputs(plasticFluid)
+		.fluidInputs(plasticFluid * 1296)
 		.circuitMeta(9)
 		.outputs(item('opencomputers:material', 16)) // Keypad
 		.duration(100).EUt(VA[MV])
@@ -162,7 +178,7 @@ for (FluidStack plasticFluid : [fluid('plastic') * 576, fluid('polyvinyl_chlorid
 	// Button Group
 	mods.gregtech.assembler.recipeBuilder()
 		.inputs(item('minecraft:stone_button') * 6, metaitem('springSteel') * 6)
-		.fluidInputs(plasticFluid)
+		.fluidInputs(plasticFluid * 864)
 		.circuitMeta(6)
 		.outputs(item('opencomputers:material', 15)) // Button Group
 		.duration(100).EUt(VA[MV])
@@ -171,10 +187,95 @@ for (FluidStack plasticFluid : [fluid('plastic') * 576, fluid('polyvinyl_chlorid
 	// Arrow Keys
 	mods.gregtech.assembler.recipeBuilder()
 		.inputs(item('minecraft:stone_button') * 5, metaitem('springSteel') * 5)
-		.fluidInputs(plasticFluid)
+		.fluidInputs(plasticFluid * 720)
 		.circuitMeta(5)
 		.outputs(item('opencomputers:material', 14)) // Arrow Keys
 		.duration(100).EUt(VA[MV])
 		.buildAndRegister()
 
 }
+
+// Chamelium
+//for (ItemStack printFilaments : [metaitem('nomilabs:wireFinePolylacticAcid') * 16,
+//								 metaitem('nomilabs:wireFineNylon') * 8,
+//								 metaitem('nomilabs:wireFinePeek') * 4
+//								]) {
+mods.gregtech.compressor.recipeBuilder()
+//			.inputs(printFilaments)
+	.inputs(metaitem('wireFineEuropium'))
+	.outputs(item('opencomputers:material', 28)) // Chamelium
+	.duration(180).EUt(VA[MV])
+	.buildAndRegister()
+//}
+
+
+/**
+ * PLA Line
+ */
+
+
+
+// TODO: Remove these comments
+// PLA : C3H4O2
+// LA : C3H6O3
+// Carbonate : CaCO3
+
+// Carbonated Biomass Broth
+mods.gregtech.mixer.recipeBuilder()
+	.inputs(metaitem('dustCalcite') * 8)
+	.fluidInputs(fluid('biomass') * 8000)
+	.circuitMeta(1)
+//		.fluidOutputs(fluid('carbonated_biomass_broth') * 16000)
+	.fluidOutputs(fluid('neutronium') * 16000)
+	.duration(100).EUt(VA[MV])
+	.buildAndRegister()
+
+// Fermented Biomass Broth
+mods.gregtech.fermenter.recipeBuilder()
+//		.fluidInputs(fluid('carbonated_biomass_broth') * 1000)
+	.fluidInputs(fluid('neutronium') * 1000)
+//		.fluidOutputs(fluid('fermented_biomass_broth') * 1250)
+	.fluidOutputs(fluid('neutronium') * 1250)
+	.duration(400).EUt(VA[HV])
+	.buildAndRegister()
+
+// Crude Lactic Acid
+mods.gregtech.centrifuge.recipeBuilder()
+//		.fluidInputs(fluid('fermented_biomass_broth') * 2500)
+	.fluidInputs(fluid('neutronium') * 2500)
+//		.fluidOutputs(fluid('crude_lactic_acid') * 1500)
+	.fluidOutputs(fluid('neutronium') * 1500)
+	.outputs(metaitem('dustCalcite'))
+	.duration(300).EUt(VA[MV])
+	.buildAndRegister()
+
+// Lactic Acid
+mods.gregtech.distillery.recipeBuilder()
+//		.fluidInputs(fluid('crude_lactic_acid') * 1500)
+	.fluidInputs(fluid('neutronium') * 1500)
+//		.fluidOutputs(fluid('lactic_acid') * 1000)
+	.fluidOutputs(fluid('neutronium') * 1000)
+	.duration(140).EUt(VA[MV])
+	.buildAndRegister()
+
+// PLA
+mods.gregtech.chemical_reactor.recipeBuilder()
+//		.fluidInputs(fluid('lactic_acid') * 1000, fluid('sulfuric_acid') * 2000)
+	.fluidInputs(fluid('neutronium') * 1000, fluid('sulfuric_acid') * 2000)
+//		.fluidOutputs(fluid('polylactic_acid') * 1000, fluid(diluted_sulfuric_acid) * 3000)
+	.fluidOutputs(fluid('neutronium') * 1000, fluid('diluted_sulfuric_acid') * 3000)
+	.duration(220).EUt(VA[MV])
+	.buildAndRegister()
+
+/**
+ * Nylon Line
+ */
+// TODO: Remove these comments
+// Nylon :
+
+/**
+ * PEEK Line
+ */
+
+// TODO: Remove these comments
+// PEEK : C19H12O3
