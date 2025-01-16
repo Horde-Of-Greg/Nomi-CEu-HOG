@@ -196,74 +196,57 @@ for (FluidStack plasticFluid : [fluid('plastic'), fluid('polyvinyl_chloride')]) 
 }
 
 // Chamelium
-//for (ItemStack printFilaments : [metaitem('nomilabs:wireFinePolylacticAcid') * 16,
-//								 metaitem('nomilabs:wireFineNylon') * 8,
-//								 metaitem('nomilabs:wireFinePeek') * 4
-//								]) {
-mods.gregtech.compressor.recipeBuilder()
-//			.inputs(printFilaments)
-	.inputs(metaitem('wireFineEuropium'))
-	.outputs(item('opencomputers:material', 28)) // Chamelium
-	.duration(180).EUt(VA[MV])
-	.buildAndRegister()
-//}
+for (ItemStack printFilaments : [metaitem('nomilabs:wireFinePolylacticAcid') * 16,
+								 metaitem('nomilabs:wireFineNylon') * 8,
+								 metaitem('nomilabs:wireFinePeek') * 4
+]) {
+	mods.gregtech.compressor.recipeBuilder()
+		.inputs(printFilaments)
+		.outputs(item('opencomputers:material', 28)) // Chamelium
+		.duration(180).EUt(VA[MV])
+		.buildAndRegister()
+}
 
 
 /**
  * PLA Line
  */
 
-
-
-// TODO: Remove these comments
-// PLA : C3H4O2
-// LA : C3H6O3
-// Carbonate : CaCO3
-
 // Carbonated Biomass Broth
 mods.gregtech.mixer.recipeBuilder()
 	.inputs(metaitem('dustCalcite') * 8)
 	.fluidInputs(fluid('biomass') * 8000)
 	.circuitMeta(1)
-//		.fluidOutputs(fluid('carbonated_biomass_broth') * 16000)
-	.fluidOutputs(fluid('neutronium') * 16000)
+	.fluidOutputs(fluid('carbonated_biomass_broth') * 16000)
 	.duration(100).EUt(VA[MV])
 	.buildAndRegister()
 
 // Fermented Biomass Broth
 mods.gregtech.fermenter.recipeBuilder()
-//		.fluidInputs(fluid('carbonated_biomass_broth') * 1000)
-	.fluidInputs(fluid('neutronium') * 1000)
-//		.fluidOutputs(fluid('fermented_biomass_broth') * 1250)
-	.fluidOutputs(fluid('neutronium') * 1250)
+	.fluidInputs(fluid('carbonated_biomass_broth') * 1000)
+	.fluidOutputs(fluid('fermented_biomass_broth') * 1250)
 	.duration(400).EUt(VA[HV])
 	.buildAndRegister()
 
 // Crude Lactic Acid
 mods.gregtech.centrifuge.recipeBuilder()
-//		.fluidInputs(fluid('fermented_biomass_broth') * 2500)
-	.fluidInputs(fluid('neutronium') * 2500)
-//		.fluidOutputs(fluid('crude_lactic_acid') * 1500)
-	.fluidOutputs(fluid('neutronium') * 1500)
+	.fluidInputs(fluid('fermented_biomass_broth') * 2500)
+	.fluidOutputs(fluid('crude_lactic_acid') * 1500)
 	.outputs(metaitem('dustCalcite'))
 	.duration(300).EUt(VA[MV])
 	.buildAndRegister()
 
 // Lactic Acid
 mods.gregtech.distillery.recipeBuilder()
-//		.fluidInputs(fluid('crude_lactic_acid') * 1500)
-	.fluidInputs(fluid('neutronium') * 1500)
-//		.fluidOutputs(fluid('lactic_acid') * 1000)
-	.fluidOutputs(fluid('neutronium') * 1000)
+	.fluidInputs(fluid('crude_lactic_acid') * 1500)
+	.fluidOutputs(fluid('lactic_acid') * 1000)
 	.duration(140).EUt(VA[MV])
 	.buildAndRegister()
 
 // PLA
 mods.gregtech.chemical_reactor.recipeBuilder()
-//		.fluidInputs(fluid('lactic_acid') * 1000, fluid('sulfuric_acid') * 2000)
-	.fluidInputs(fluid('neutronium') * 1000, fluid('sulfuric_acid') * 2000)
-//		.fluidOutputs(fluid('polylactic_acid') * 1000, fluid(diluted_sulfuric_acid) * 3000)
-	.fluidOutputs(fluid('neutronium') * 1000, fluid('diluted_sulfuric_acid') * 3000)
+	.fluidInputs(fluid('lactic_acid') * 1000, fluid('sulfuric_acid') * 2000)
+	.fluidOutputs(fluid('polylactic_acid') * 1000, fluid('diluted_sulfuric_acid') * 3000)
 	.duration(220).EUt(VA[MV])
 	.buildAndRegister()
 
