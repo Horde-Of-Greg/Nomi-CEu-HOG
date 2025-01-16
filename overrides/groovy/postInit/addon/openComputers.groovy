@@ -108,6 +108,15 @@ mods.gregtech.polarizer.recipeBuilder()
 
 // Crafting components
 
+// TODO: Remove these comments
+//Acid n
+//ALU y
+//Card y
+//CU y
+//Disk y
+//Interweb n
+//Microchip y
+
 // Remove Old
 // Microchips
 crafting.remove('opencomputers:material36') // Tier 1 Microchip
@@ -118,6 +127,9 @@ crafting.remove('opencomputers:material38') // Tier 3 Microchip
 crafting.remove('opencomputers:material43') // Keypad
 crafting.remove('opencomputers:material44') // Button Group
 crafting.remove('opencomputers:material45') // Arrow Keys
+
+// Grog
+crafting.remove('opencomputers:material32')
 
 // Make New
 // Microchips
@@ -207,6 +219,56 @@ for (ItemStack printFilaments : [metaitem('nomilabs:wireFinePolylacticAcid') * 1
 		.buildAndRegister()
 }
 
+
+// Grog
+for (FluidStack poison : [fluid('chloroform'),
+						  fluid('methanol'),
+						  fluid('bio_diesel'),
+						  fluid('diesel'),
+						  fluid('rocket_fuel'),
+						  fluid('glue'),
+						  fluid('lpg'),
+						  fluid('oil'),
+						  fluid('oil_heavy'),
+						  fluid('oil_medium'),
+						  fluid('oil_light'),
+						  fluid('raw_gasoline'),
+						  fluid('gasoline'),
+						  fluid('gasoline_premium'),
+						  fluid('coal_tar'),
+						  fluid('nitro_fuel'),
+						  fluid('glass'),
+						  fluid('blaze'),
+						  fluid('chlorine'),
+						  fluid('lead'),
+						  fluid('mercury')
+])	{
+	for (FluidStack acid : [fluid('nitric_acid'),
+							fluid('sulfuric_acid'),
+							fluid('phosphoric_acid'),
+							fluid('hypochlorous_acid'),
+							fluid('hydrofluoric_acid'),
+							fluid('hydrochloric_acid'),
+							fluid('fluoroantimonic_acid')
+	])	{
+		mods.gregtech.mixer.recipeBuilder()
+			.inputs(item('minecraft:fermented_spider_eye') * 6,
+				item('minecraft:bone') * 6, item('minecraft:slime_ball') * 6)
+			.fluidInputs(acid * 666, poison * 666)
+			.circuitMeta(13)
+			.fluidOutputs(fluid('grog') * 999)
+			.duration(260).EUt(666)
+			.buildAndRegister()
+	}
+}
+
+mods.gregtech.canner.recipeBuilder()
+	.inputs(item('minecraft:glass_bottle'))
+//		.fluidInputs(fluid('grog') * 250)
+	.fluidInputs(fluid('neutronium') * 250)
+	.outputs(item('opencomputers:material', 1)) // Grog
+	.duration(100).EUt(VA[ULV])
+	.buildAndRegister()
 
 /**
  * PLA Line
