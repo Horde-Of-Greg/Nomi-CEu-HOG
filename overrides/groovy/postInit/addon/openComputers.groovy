@@ -264,8 +264,7 @@ for (FluidStack poison : [fluid('chloroform'),
 
 mods.gregtech.canner.recipeBuilder()
 	.inputs(item('minecraft:glass_bottle'))
-//		.fluidInputs(fluid('grog') * 250)
-	.fluidInputs(fluid('neutronium') * 250)
+	.fluidInputs(fluid('grog') * 250)
 	.outputs(item('opencomputers:material', 1)) // Grog
 	.duration(100).EUt(VA[ULV])
 	.buildAndRegister()
