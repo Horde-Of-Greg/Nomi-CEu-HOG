@@ -68,7 +68,7 @@
 		"javascript-stringify": "^2.1.0",
 		"just-diff": "^6.0.2",
 		"just-remove": "^3.2.0",
-		"lodash": "^4.17.21",
+		"lodash": "^4.18.1",
 		"marked": "^12.0.2",
 		"merge-stream": "^2.0.0",
 		"mustache": "^4.2.0",
