@@ -105,7 +105,7 @@ jobs:
         run: npm run gulp updateFilesAll
 
       - name: Commit and Push Release Changes
-        uses: stefanzweifel/git-auto-commit-action@v7
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9
         id: commit-release
         if: ${{ !inputs.update_files }}
         with:
@@ -116,7 +116,7 @@ jobs:
           tagging_message: "${{ inputs.tag }}"
 
       - name: Commit and Push Update Changes
-        uses: stefanzweifel/git-auto-commit-action@v7
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9
         id: commit-update
         if: ${{ inputs.update_files }}
         with:
