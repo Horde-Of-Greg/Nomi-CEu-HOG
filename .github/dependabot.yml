@@ -8,7 +8,7 @@ updates:
       - "github-actions"
     schedule:
       interval: daily
-      time: "16:30"
+      time: "17:30"
       timezone: "Europe/Brussels"
     groups:
       actions-breaking:
@@ -29,7 +29,7 @@ updates:
       - "javascript"
     schedule:
       interval: daily
-      time: "16:30"
+      time: "17:30"
       timezone: "Europe/Brussels"
     ignore:
       - dependency-name: "*"
