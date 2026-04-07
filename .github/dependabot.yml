@@ -8,3 +8,12 @@ updates:
       - "github-actions"
     schedule:
       interval: "weekly"
+
+  - package-ecosystem: "npm"
+    directory: "/tools"
+    labels:
+      - "dependencies"
+      - "auto-creation"
+      - "javascript"
+    schedule:
+      interval: "weekly"
