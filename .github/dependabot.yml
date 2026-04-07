@@ -7,7 +7,9 @@ updates:
       - "auto-creation"
       - "github-actions"
     schedule:
-      interval: "weekly"
+      interval: daily
+      time: "16:30"
+      timezone: "Europe/Brussels"
     groups:
       actions-breaking:
         applies-to: version-updates
@@ -26,7 +28,9 @@ updates:
       - "auto-creation"
       - "javascript"
     schedule:
-      interval: "weekly"
+      interval: daily
+      time: "16:30"
+      timezone: "Europe/Brussels"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
