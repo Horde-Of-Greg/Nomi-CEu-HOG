@@ -45,7 +45,7 @@ jobs:
       # Nomi-CEu-Management has access to all of Nomi-CEu's Repos.
       - name: Get Token
         id: token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           # Shared Org Secret: Contains the Nomi-CEu-Management App ID (773030)
           app-id: ${{ secrets.APP_ID }}
